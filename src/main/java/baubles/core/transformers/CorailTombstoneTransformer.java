@@ -3,7 +3,8 @@ package baubles.core.transformers;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.IBaublesItemHandler;
-import it.unimi.dsi.fastutil.ints.*;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
@@ -16,12 +17,7 @@ public class CorailTombstoneTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/CorailTombstoneTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        if (transformedName.equals("ovh.corail.tombstone.compatibility.CompatibilityBaubles")) return transformCompatibilityBaubles(basicClass);
-        return basicClass;
-    }
-
-    private static byte[] transformCompatibilityBaubles(byte[] basicClass) {
+    public static byte[] transformCompatibilityBaubles(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         cls.methods.removeIf(m -> m.name.equals("autoEquip"));
         { // autoEquip

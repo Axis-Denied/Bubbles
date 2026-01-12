@@ -9,6 +9,7 @@ import baubles.api.cap.IBaublesItemHandler;
 import baubles.common.Baubles;
 import baubles.common.network.PacketHandler;
 import baubles.common.network.PacketSync;
+import baubles.common.network.PacketSyncSlotCounts;
 import cofh.core.enchantment.EnchantmentSoulbound;
 import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.MathHelper;
@@ -65,8 +66,8 @@ public class EventHandlerEntity {
         Entity entity = event.getEntity();
         if (entity instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) entity;
-            this.syncSlots(player, Collections.singletonList(player));
             BaublesContainer container = (BaublesContainer) BaublesApi.getBaublesHandler(player);
+            syncContainer(player, container, Collections.singletonList(player));
         }
     }
 
@@ -74,7 +75,7 @@ public class EventHandlerEntity {
     public void onStartTracking(PlayerEvent.StartTracking event) {
         Entity target = event.getTarget();
         if (target instanceof EntityPlayerMP) {
-            this.syncSlots((EntityPlayer) target, Collections.singletonList(event.getEntityPlayer()));
+            this.syncContainer((EntityPlayer) target, Collections.singletonList(event.getEntityPlayer()));
         }
     }
 
@@ -110,6 +111,17 @@ public class EventHandlerEntity {
         IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
         for (int i = 0; i < baubles.getSlots(); i++) {
             syncSlot(player, i, baubles.getStackInSlot(i), receivers);
+        }
+    }
+
+    private void syncContainer(EntityPlayer player, Collection<? extends EntityPlayer> receivers) {
+        syncContainer(player, BaublesApi.getBaublesContainer(player), receivers);
+    }
+
+    private void syncContainer(EntityPlayer player, BaublesContainer container, Collection<? extends EntityPlayer> receivers) {
+        PacketSyncSlotCounts pkt = new PacketSyncSlotCounts(player, container.serializeNBT());
+        for (EntityPlayer receiver : receivers) {
+            PacketHandler.INSTANCE.sendTo(pkt, (EntityPlayerMP) receiver);
         }
     }
 

@@ -12,12 +12,8 @@ public class WizardryTransformer extends BaseTransformer {
 
     private static final String HOOKS = "baubles/core/transformers/WizardryTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        if (transformedName.equals("com.teamwizardry.wizardry.api.item.BaublesSupport$ArmorAccessor")) return BaublesSupport$ArmorAccessor(basicClass);
-        return basicClass;
-    }
 
-    private static byte[] BaublesSupport$ArmorAccessor(byte[] basicClass) {
+    public static byte[] BaublesSupport$ArmorAccessor(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("getBaublesFallbackArmor")) {

@@ -38,6 +38,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Mod(modid = Baubles.MODID, name = "Baubles", version = Tags.MOD_VERSION, guiFactory = "baubles.client.gui.BaublesGuiFactory", dependencies = "after:minieffects@[2.3.2,)")
@@ -57,6 +58,10 @@ public class Baubles {
 
     public static final SoundEvent TU_TU_TU_TU;
 
+    public static void getStackData(int depth) {
+        StackTraceElement[] stack = new Throwable().getStackTrace();
+        log.error((stack.length > 1 ? Arrays.asList(stack).subList(1, Math.min(stack.length, depth + 1)) : ""));
+    }
     @EventHandler
     public void construction(FMLConstructionEvent event) {
         MinecraftForge.EVENT_BUS.register(this);

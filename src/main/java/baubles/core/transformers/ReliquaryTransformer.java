@@ -12,15 +12,7 @@ public class ReliquaryTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/ReliquaryTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        switch (transformedName) {
-            case "xreliquary.items.ItemAngelheartVial": return transformItemAngelHeartVial(basicClass);
-            case "xreliquary.items.ItemPhoenixDown": return transformItemPhoenixDown(basicClass);
-            default: return basicClass;
-        }
-    }
-
-    private static byte[] transformItemAngelHeartVial(byte[] basicClass) {
+    public static byte[] transformItemAngelHeartVial(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("decreaseAngelHeartByOne")) {
@@ -37,7 +29,7 @@ public class ReliquaryTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemPhoenixDown(byte[] basicClass) {
+    public static byte[] transformItemPhoenixDown(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("revertPhoenixDownToAngelicFeather")) {

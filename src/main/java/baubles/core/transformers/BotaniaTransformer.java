@@ -4,7 +4,6 @@ import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.tree.*;
 import vazkii.botania.common.item.equipment.bauble.ItemTravelBelt;
 
@@ -14,20 +13,7 @@ public class BotaniaTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/BotaniaTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        switch (transformedName) {
-            case "vazkii.botania.common.item.equipment.bauble.ItemDivaCharm": return BotaniaTransformer.transformItemDivaCharm(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemTiara": return BotaniaTransformer.transformItemTiara(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemGoddessCharm": return BotaniaTransformer.transformItemGoddessCharm(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemHolyCloak": return BotaniaTransformer.transformItemHolyCloak(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemMonocle": return BotaniaTransformer.transformItemMonocle(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemTravelBelt": return BotaniaTransformer.transformItemTravelBelt(basicClass);
-            case "vazkii.botania.common.item.equipment.bauble.ItemWaterRing": return BotaniaTransformer.transformItemWaterRing(basicClass);
-            default: return basicClass;
-        }
-    }
-
-    private static byte[] transformItemDivaCharm(byte[] basicClass) {
+    public static byte[] transformItemDivaCharm(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("lambda$onEntityDamaged$0")) {
@@ -50,7 +36,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemTiara(byte[] basicClass) {
+    public static byte[] transformItemTiara(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("updatePlayerFlyStatus")) {
@@ -98,7 +84,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemGoddessCharm(byte[] basicClass) {
+    public static byte[] transformItemGoddessCharm(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("onExplosion")) {
@@ -121,7 +107,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemHolyCloak(byte[] basicClass) {
+    public static byte[] transformItemHolyCloak(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("onPlayerDamage")) {
@@ -144,7 +130,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemMonocle(byte[] basicClass) {
+    public static byte[] transformItemMonocle(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("hasMonocle")) {
@@ -167,7 +153,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemTravelBelt(byte[] basicClass) {
+    public static byte[] transformItemTravelBelt(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("updatePlayerStepStatus")) {
@@ -215,7 +201,7 @@ public class BotaniaTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformItemWaterRing(byte[] basicClass) {
+    public static byte[] transformItemWaterRing(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("onWornTick")) {

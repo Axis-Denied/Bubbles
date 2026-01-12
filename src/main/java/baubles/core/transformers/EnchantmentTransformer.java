@@ -18,18 +18,10 @@ public class EnchantmentTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/EnchantmentTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        switch (transformedName) {
-            case "net.minecraft.enchantment.Enchantment": return EnchantmentTransformer.transformEnchantment(basicClass);
-            case "net.minecraft.item.Item": return EnchantmentTransformer.transformItem(basicClass);
-            default: return basicClass;
-        }
-    }
-
     /**
      * Transforms {@link Enchantment#getEntityEquipment(EntityLivingBase)} for making enchantments in baubles work.
      **/
-    private static byte[] transformEnchantment(byte[] basicClass) {
+    public static byte[] transformEnchantment(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals(getName("getEntityEquipment", "func_185260_a"))) {
@@ -49,7 +41,7 @@ public class EnchantmentTransformer extends BaseTransformer {
     /**
      * Transforms {@link Item#canApplyAtEnchantingTable(ItemStack, Enchantment)} for making enchantments appliable for baubles.
      **/
-    private static byte[] transformItem(byte[] basicClass) {
+    public static byte[] transformItem(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("canApplyAtEnchantingTable")) {

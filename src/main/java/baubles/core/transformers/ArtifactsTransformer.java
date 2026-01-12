@@ -25,28 +25,12 @@ public class ArtifactsTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/ArtifactsTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass, boolean isRLArtifact) {
-       switch (transformedName) {
-           case "artifacts.client.model.layer.LayerAmulet": return ArtifactsTransformer.transformLayerAmulet(basicClass, isRLArtifact);
-           case "artifacts.client.model.layer.LayerBelt": return ArtifactsTransformer.transformLayerBelt(basicClass, isRLArtifact);
-           case "artifacts.client.model.layer.LayerCloak": return ArtifactsTransformer.transformLayerCloak(basicClass, isRLArtifact);
-           case "artifacts.client.model.layer.LayerDrinkingHat": return ArtifactsTransformer.transformLayerDrinkingHat(basicClass, isRLArtifact);
-           case "artifacts.client.model.layer.LayerGloves": return ArtifactsTransformer.transformLayerGloves(basicClass);
-           case "artifacts.client.model.layer.LayerNightVisionGoggles": return ArtifactsTransformer.transformLayerNightVisionGoggles(basicClass, isRLArtifact);
-           case "artifacts.client.model.layer.LayerSnorkel": return ArtifactsTransformer.transformLayerSnorkel(basicClass, isRLArtifact);
-           case "artifacts.common.item.AttributeModifierBauble": return ArtifactsTransformer.transformAttributeModifierBauble(basicClass);
-           case "artifacts.common.item.BaubleAmulet": return ArtifactsTransformer.transformBaubleAmulet(basicClass, isRLArtifact);
-           case "artifacts.common.item.BaubleBottledCloud": return ArtifactsTransformer.transformBaubleBottledCloud(basicClass); // Non-RL
-           default: return basicClass;
-       }
-    }
-
     public static boolean checkArtifacts(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         return cls.visibleAnnotations.get(0).values.get(3).equals("RLArtifacts");
     }
 
-    private static byte[] transformAttributeModifierBauble(byte[] basicClass) {
+    public static byte[] transformAttributeModifierBauble(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("applyModifiers")) {
@@ -68,7 +52,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerAmulet(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerAmulet(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -95,7 +79,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerBelt(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerBelt(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -122,7 +106,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerCloak(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerCloak(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -149,7 +133,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerDrinkingHat(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerDrinkingHat(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -176,7 +160,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerGloves(byte[] basicClass) {
+    public static byte[] transformLayerGloves(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("setTextures")) {
@@ -203,7 +187,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerNightVisionGoggles(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerNightVisionGoggles(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -229,7 +213,7 @@ public class ArtifactsTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformLayerSnorkel(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformLayerSnorkel(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -259,7 +243,7 @@ public class ArtifactsTransformer extends BaseTransformer {
      * MODDERS LOOK AT API PACKAGE {@link baubles.api.BaublesApi#isBaubleEquipped(EntityPlayer, Item)} CHALLENGE
      * FUCKING IMPOSSIBLE
      **/
-    private static byte[] transformBaubleAmulet(byte[] basicClass, boolean isRLArtifact) {
+    public static byte[] transformBaubleAmulet(byte[] basicClass, boolean isRLArtifact) {
         if (!isRLArtifact) return basicClass;
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
@@ -288,7 +272,7 @@ public class ArtifactsTransformer extends BaseTransformer {
      * MODDERS LOOK AT API PACKAGE {@link baubles.api.BaublesApi#isBaubleEquipped(EntityPlayer, Item)} CHALLENGE
      * FUCKING IMPOSSIBLE
      **/
-    private static byte[] transformBaubleBottledCloud(byte[] basicClass) {
+    public static byte[] transformBaubleBottledCloud(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals("onClientTick")) {

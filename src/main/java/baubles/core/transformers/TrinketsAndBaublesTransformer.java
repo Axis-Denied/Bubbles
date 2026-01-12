@@ -8,20 +8,11 @@ import java.util.Iterator;
 
 public class TrinketsAndBaublesTransformer extends BaseTransformer {
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        switch (transformedName) {
-            case "xzeroair.trinkets.util.compat.baubles.BaublesHelper": return transformBaublesHelper(basicClass);
-            case "xzeroair.trinkets.client.gui.TrinketGuiButton": return transformTrinketGuiButton(basicClass);
-            case "xzeroair.trinkets.container.TrinketInventoryContainer": return transformTrinketInventoryContainer(basicClass);
-            default: return basicClass;
-        }
-    }
-
     /**
      * Uses IBaublesItemHandler#setPlayer even though it's an internal class.
      * Fuck you.
      **/
-    private static byte[] transformBaublesHelper(byte[] basicClass) {
+    public static byte[] transformBaublesHelper(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         cls.methods.removeIf(method -> method.name.equals("getBaublesHandler"));
         { // getBaublesHandler(EntityLivingBase)
@@ -69,7 +60,7 @@ public class TrinketsAndBaublesTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformTrinketGuiButton(byte[] basicClass) {
+    public static byte[] transformTrinketGuiButton(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals(getName("drawButton", "func_191745_a"))) {
@@ -94,7 +85,7 @@ public class TrinketsAndBaublesTransformer extends BaseTransformer {
         return write(cls);
     }
 
-    private static byte[] transformTrinketInventoryContainer(byte[] basicClass) {
+    public static byte[] transformTrinketInventoryContainer(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals(getName("transferStackInSlot", "func_82846_b"))) {

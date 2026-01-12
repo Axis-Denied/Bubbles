@@ -10,7 +10,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.util.Iterator;
 
@@ -18,12 +21,7 @@ public class CreativeInvTransformer extends BaseTransformer {
 
     private static final String HOOK = "baubles/core/transformers/CreativeInvTransformer$Hooks";
 
-    public static byte[] transform(String name, String transformedName, byte[] basicClass) {
-        if (transformedName.equals("net.minecraft.client.gui.inventory.GuiContainerCreative")) return transformGuiContainerCreative(basicClass);
-        return basicClass;
-    }
-
-    private static byte[] transformGuiContainerCreative(byte[] basicClass) {
+    public static byte[] transformGuiContainerCreative(byte[] basicClass) {
         ClassNode cls = read(basicClass);
         for (MethodNode method : cls.methods) {
             if (method.name.equals(getName("handleMouseClick", "func_184098_a"))) {
