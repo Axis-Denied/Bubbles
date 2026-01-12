@@ -35,7 +35,6 @@ public class PacketSync implements IMessage, IMessageHandler<PacketSync, IMessag
         this.slot = (byte) slot;
         this.bauble = bauble;
         this.playerId = p.getEntityId();
-        if (slot == 7) Baubles.getStackData(8);
     }
 
     @Override
